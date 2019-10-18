@@ -40,32 +40,53 @@ library(magrittr)
 
 ## Learning Objectives
 
+
+<br>
+<br>
 1. Creating an R project
+<br>
+<br>
 2. Writing a script
-3. Loading, exploring and saving data
-4. Learn to manipulate data frames with tidyr, dplyr, maggritr
+<br>
+<br>
+3. Loading, exploring, and saving data
+<br>
+<br>
+4. Learn to manipulate data frames with tidyr, dplyr, maggritr *(For more advanced users)*
+
 
 ---
 ## RStudio projects
 
-* What is this?
-  - Within RStudio, Projects make it easy to separate and keep your work organized.  
-  - All files, scripts, documentation related to a specific project are bound together
 
-* Encourages reproducibility and easy sharing.
+<br>
+<br>
+- Projects make easy to keep your work organized.
+<br>
+<br>
+- All files, scripts, and documentation related to a specific project are bound together with a .Rproj file
+<br>
+<br>
+
+.alert[
+  Encourages reproducible code!
+  ]
+
 
 ---
-## Create a new project
+## Creating a new project
 
-Use the **Create project** command (available in the Projects menu and the global toolbar)
+Use the **Create project** command
+
+(available in the Projects menu and the global toolbar)
 
 .center[
 ![:scale 60%](images/0_Create_a_new_project.png)]
 
 ---
-## Keep your files organized!
+## One project = one folder
 
-One project = one folder :)
+Keep your files organized!
 
 .center[
 ![:scale 60%](images/0_folderData1.png)]
@@ -76,7 +97,7 @@ One project = one folder :)
 
 Dataset should be stored as comma-separated value files (.csv) in the working directory
 
-* Can be created from almost all applications (Excel, LibreOffice, GoogleDocs)
+* Can be created from almost all applications (Excel, LibreOffice, Google Docs)
 * File -> Save as **.csv**…
 
 .center[
@@ -86,59 +107,60 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
 
 
 ---
-## Choose filenames names wisely
+## Naming files
 
+Avoid using spaces, accents or special characters for your names.
+
+<br>
 .pull-left[
-**Good!**
+**Wise**
 - rawDatasetAgo2017.csv
 - co2_concentrations_QB.csv
 - 01_figIntro.R]
-
+<br>
+<br>
 .pull-right[
-**Bad!**
-- final.csv (*Uninformative!*)
-- safnnejs.csv (*Random!*)
-- 1-4.csv (*Avoid using only numbers!*)
-- Dont.separate.names.with.dots.csv (*Because it may lead to reading file errors!*)]
-
+**not-wise**
+- final.csv
+- safnnejs.csv
+- 1-4.csv
+]
 
 
 ---
-## Choose variable names wisely
+## Naming variables
 
+Avoid using spaces, accents or special characters for your names
+Use separators (e.g. "\_") to add details
+
+<br>
 .pull-left[
-**Good!**
+**Wise**
   - Measurements
-  - SpeciesNames
-  - Site ]
-
+  - speciesNames
+  - Site_001_Rep_002 ]
+<br>
+<br>
 .pull-right[
-**Bad!**
+**not-wise**
  - a
  - 3
- - supercomplicatedverylongname]
+ - complicatedverylongname]
 
 ---
-## Things to consider with your data input
+## Common data preparation mistakes
 
-
-.pull-left[
-* No text in numeric columns
-* Do not include spaces!
-* NA (not available) is allowed
-* Blank entries will automatically be replaced with NA
-* Name your variables informatively
-* Look for typos]
-
-.pull-right[
-* Avoid numeric values for data that are not numeric
-* Use CONSISTENT formats for dates, numbers, metrics, etc.
-* No notes in .CSV files
-* No additional headings
-* No merged cells]
+<br>
+<br>
+* text in numeric columns
+* typos
+* numeric names for non-numeric data
+* inconsistent formats for dates, numbers, metrics, etc.
+* incorrect headings
+* merged cells
 
 ---
-## Bad data examples:
+## Bad data sheets:
 
 .pull-left[
 ![:scale 120%](images/Excel_csv_good_bad/excel_values.png)]
@@ -148,9 +170,9 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
 ]
 
 ---
-## Horrible data examples:
+## Horrible data sheets:
 
-Bad data preservation practices
+Not the best practices for data preservation and interoperability
 
 .center[
 ![:scale 85%](images/HorribleData.png)]
@@ -158,7 +180,8 @@ Bad data preservation practices
 
 ---
 ## Preparing data in R
-
+<br>
+<br>
 It is possible to do all your data preparation work within R
 
 * Saves time for large datasets
@@ -175,23 +198,24 @@ class: inverse, center, middle
 
 ---
 ## R Scripts
-
-* What is this?
-   - A text file that contains all of the commands that you will use
+<br>
+<br>
+* What is a script?
+   - A text file storing the commands used for a particular analysis
 
 * Once written and saved, your script file allows you to make changes and re-run analyses with minimal effort!
   - Just highlight text and click "Run" or press Command + Enter (Apple) or Ctrl + Enter (Windows and Linux)
 
 
 ---
-## Create an R script
+## Creating a R script
 
 .center[
 ![:scale 80%](images/1_Create_an_R_script.png)
 ]
 
 ---
-## Create an R script
+## Creating a R script
 
 
 .center[
@@ -201,7 +225,12 @@ class: inverse, center, middle
 
 ---
 ## Commands and comments
+<br>
+<br>
 The `#` symbol in a script tells R to ignore anything remaining on this line of the script when running commands
+
+<br>
+<br>
 
 ```{r, eval = FALSE}
 # This is a comment not a command
@@ -210,17 +239,18 @@ The `#` symbol in a script tells R to ignore anything remaining on this line of 
 
 ---
 ## Why should I use `#`?
-
+<br>
+<br>
 * Annotating someone’s script is a good way to learn
-* Remember what you did
 * Tell collaborators what you did
 * Good step towards reproducible science
-* Be as detailed as possible
+
+Be as detailed as possible!
 
 
 ---
 ## Header
-
+<br>
 It is recommended that you start your script with a header using comments:
 
 .center[
@@ -230,7 +260,7 @@ It is recommended that you start your script with a header using comments:
 
 ---
 ## Section Headings
-
+<br>
 You can make a section heading in R Studio four `#` signs
 
 ```{r, eval = FALSE}
@@ -242,13 +272,14 @@ You can make a section heading in R Studio four `#` signs
 This allows you to move quickly between sections and hide sections
 
 .center[
-![:scale 70%](images/4_Section_headings_Mod_arrow 2.png)
+![:scale 70%](images/4_Section_headings_Mod_arrow_2.png)
 ]
 
 
 ---
 ## Housekeeping
-
+<br>
+<br>
 The first command at the top of all scripts may be: `rm(list = ls())`.
 This command:
 
@@ -257,7 +288,8 @@ This command:
 
 ---
 ## Clearing the workspace
-
+<br>
+<br>
 ```{r, eval = FALSE}
 # Clear the R workspace
 rm(list = ls())
@@ -267,7 +299,8 @@ rm(list = ls())
 
 ---
 ## Housekeeping
-
+<br>
+<br>
 Demo – Try to add some test data to R and then see how `rm(list = ls())` removes it
 
 
@@ -284,8 +317,11 @@ A
 
 ---
 ## Remember
-
+<br>
+<br>
 * R is ready for commands when you see the chevron `>` in the console. If you don't see it, press ESC
+<br>
+<br>
 * R is case sensitive!
 
 
@@ -296,7 +332,8 @@ class: inverse, center, middle
 
 ---
 ## Download today's data
-
+<br>
+<br>
 You can download the data and the script for this workshop from the wiki:
 
 .center[http://qcbs.ca/wiki/r/workshop2]
@@ -305,28 +342,18 @@ Save the files in the folder where your created your R project.
 
 ---
 ## Working Directory
-
+<br>
+<br>
 Tells R where your scripts and data are. You need to set the right working directory to load a data file. Type `getwd()` in the console to see your working directory:
 
 ```{r, eval = FALSE}
 getwd()
 ```
 
-If this is not the directory you would like to work with, you can set your own using:
-
-```{r, eval = FALSE}
-setwd()
-```
-
-Within the parenthesis, you will write the *extension of the directory* you would like to work with. See the example below:
-
-```{r, eval = FALSE}
-setwd("C:/Users/Luigi/Documents") # We use slashes "/", and not backslashes "\"
-```
-
 ---
 ## Display contents of the directory
-
+<br>
+<br>
 You can display contents of the working directory using `dir()`:
 
 ```{r, eval = TRUE}
@@ -340,7 +367,8 @@ It helps to:
 
 ---
 ## Importing Data
-
+<br>
+<br>
 Import data into R using `read.csv`:
 
 ```{r, eval = TRUE}
@@ -349,13 +377,14 @@ CO2 <- read.csv("data/co2_good.csv", header=TRUE)
 
 Note that this will:
 * Create a new object in R called `CO2`;
-* The filename is written within quotation marks ('file' or "file");
-* If you needed to fetch the filename from another directory that is not yours, you would have to write the full extension (e.g., `"C:/Users/Mario/Downloads/co2_good.csv"`)
+* The file name is written within quotation marks ('file' or "file");
+* If you needed to fetch the file name from another directory that is not yours, you would have to write the full extension (e.g., `"C:/Users/Mario/Downloads/co2_good.csv"`)
 * `header=TRUE` tells R that the first line of your dataset contains column names
 
 ---
 ## Importing Data
-
+<br>
+<br>
 .alert[Recall] to find out what arguments the function requires, use help “?”
 I
 ```{r, eval = FALSE}
@@ -381,11 +410,12 @@ The **workspace** refers to all the objects that you create during an R session.
 
 
 ---
-## Looking at Data
+## Inspecting the data
 
 R Command  					| Action
 ----------------- | -------------
 `CO2`					  		| look at the whole dataframe
+`view(CO2)`         | look data as a spreadsheet
 `head(CO2)`		  		| look at the first few rows
 `tail(CO2)`         | look at the last few rows
 `names(CO2)`				| names of the columns in the dataframe
@@ -397,7 +427,8 @@ R Command  					| Action
 
 ---
 ## Inspecting the data
-
+<br>
+<br>
 ```{r, eval = TRUE}
 str(CO2)
 ```
@@ -409,47 +440,20 @@ Very useful to check data type (mode) of all columns to make sure R loaded data 
 
 ---
 ## Inspecting the data
-
+<br>
+<br>
 **Common problems:**
 
-* Factors loaded as text (character) or vice versa;
+* Factors loaded as text (character) or viceversa;
 * Factors includes too many (and unexpected) levels because of typos
 * Data (integer or numeric) is loaded as character because of typos (*e.g.* a space or a "," instead of a "." to separate decimal numbers)
 
 ---
-## Looking at Data
+## Working with datasets in R
 
-.pull-left[
-
-.pull-left[
-`data()`
-
-`head()`
-]
-.pull-right[
-
-`tail()`
-
-`str()`
-]
-]
-
-.pull-right[
-.pull-left[
-`names()`
-
-`attributes()`
-]
-.pull-right[
-
-`dim()`
-
-`ncol()`
-
-`nrow()`
-]
-]
-
+<br>
+<br>
+Exercise:
 
 Load the data with:
 
@@ -462,7 +466,8 @@ Check data types with `str()` again. What is wrong here?
 
 ---
 ## Reminder from Workshop 1: Accessing data
-
+<br>
+<br>
 Imagine a data frame called `mydata`:
 
 .center[
@@ -519,7 +524,7 @@ Creating new variables works for numbers and mathematical operations as well!
 
 ```{r, eval = FALSE}
 # Let's standardize our variable "absortion" to relative values
-CO2copy$absortionRel <- CO2copy$absortion/max(CO2copy$absortion)  
+CO2copy$absortionRel <- CO2copy$absortion/max(CO2copy$absortion)
 
 # Observe the results
 head(CO2copy$absortionRel)
@@ -549,7 +554,7 @@ CO2copy[1:50,]
 CO2copy[CO2copy$Traitement == "nonchilled",]
 
 # Select observations with absortion higher or equal to 20
-CO2copy[CO2copy$absortion >= 20, ]  
+CO2copy[CO2copy$absortion >= 20, ]
 
 # Select observations with absortion higher or equal to 20
 CO2copy[CO2copy$Traitement  == "nonchilled" & CO2copy$absortion >= 20, ]
@@ -562,7 +567,8 @@ Go [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Logic.html) to
 
 ---
 ## Data exploration
-
+<br>
+<br>
 A good way to start your data exploration is to look at some basic statistics of your dataset.
 
 Use the `summary()` function to do that!
@@ -596,20 +602,6 @@ hist(CO2$uptake)
 hist(CO2$uptake, breaks = 40)
 ```
 
----
-## Data exploration
-
-Use `apply()` to calculate the means of the last two columns of the data frame (*i.e.* the columns that contain continuous data).
-
-```{r, eval = FALSE}
-?apply # Let's see how apply works!
-```
-
-```{r}
-apply(CO2[,4:5],
-      MARGIN = 2,
-      FUN = mean)
-```
 
 ---
 ## Saving your Workspace
@@ -652,28 +644,30 @@ Note that our arguments are both:
 
 ---
 ## Challenge: Use your data ![:cube]()
-
+<br>
+<br>
 * Try to load, explore, plot, and save your own data in R;*
 * If it does not load properly, try to make the appropriate changes;
 * When you are finished, try opening your exported data in Excel, Numbers, Notepad or TextEdit.
 
-.comment[*If you don’t have your own data, work with your neighbour]
+.comment[*If you don’t have your own data, work with your neighbor]
 .comment[*Remember to clean your workspace]
 
 
 ---
-## Fixing a broken data frame
-
+## Database repair
+<br>
 Getting your data working properly can be tougher than you think!
-
-Sometimes, one may find **compatibility issues**.
+<br>
 
 For example, sharing data from an Apple computer to Windows, or between computers set up in different continents can lead to incompatible files (e.g. different decimal separators).
 
 Let's practice how to solve these common errors.
 
 ---
-## Harder Challenge![:cube]()
+## Database repair
+
+Exercise:
 
 Read the file `co2_broken.csv`
 
@@ -682,47 +676,36 @@ CO2 <- read.csv("data/co2_broken.csv")
 head(CO2)
 ```
 
----
-## Harder Challenge ![:cube]()
-
-* This is probably what the data you are using looks like;
-* You can fix the data frame in R or other software;
-* Please give it a try before looking at the script provided;
-* Work with your neighbours and have FUN!.
-
-```{r, eval = TRUE}
-CO2[1:4,]
-```
-
 
 ---
-## Fixing co2_broken ![:cube]()
+## Database repair
 
 Some useful functions:
 
-* `?read.csv` - look at some of the options for how to load a .csv
 * `head()` - first few rows
 * `str()` - structure of data
 * `class()` - class of the object
 * `unique()` - unique observations
 * `levels()` - levels of a factor
 * `which()` - ask a question to your data frame
-* `droplevels()` - get rid of undesired levels after subsetting factors
+* `droplevels()` - get rid of undesired levels after sub setting factors
 
-.alert[HINT] There are 4 problems!
+add "?" (e.g. `?read.csv` to the function name to access the function help page)
 
 ---
-## Broken data
+## Database repair
+
+
+.alert[HINT] There are 4 problems!
 
 .alert[ERROR 1] The data appears to be lumped into one column
 
 ```{r, eval = TRUE}
 head(CO2)
-
 ```
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 1] - Solution
 
@@ -735,7 +718,7 @@ CO2 <- read.csv("data/co2_broken.csv",sep = "")
 ```
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 2] The data does not start until the third line of the file, so you end up with notes on the file as the headings.
 
@@ -745,7 +728,7 @@ head(CO2)
 
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 2] - Solution
 
@@ -757,7 +740,7 @@ head(CO2)
 ```
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 3]
 
@@ -779,7 +762,7 @@ str(CO2)
 
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 3] - Solution
 
@@ -793,11 +776,11 @@ str(CO2)
 ```
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 4]
 
-There are only 2 treatments (chilled and nonchilled) but there are spelling errors causing it to look like 4 different treatments.
+There are only 2 treatments (chilled and non-chilled) but there are spelling errors causing it to look like 4 different treatments.
 
 ```{r, eval = FALSE}
 str(CO2)
@@ -809,7 +792,7 @@ unique(CO2$Treatment)
 ```
 
 ---
-## Broken data
+## Database repair
 
 .alert[ERROR 4] - Solution
 
@@ -826,7 +809,11 @@ CO2 <- droplevels(CO2)
 str(CO2)
 ```
 
-Fixed!
+
+---
+class: inverse, center, middle
+
+# Advanced users section
 
 ---
 class: inverse, center, middle
@@ -884,7 +871,8 @@ Wide data frame can be used for some basic plotting in `ggplot2`, but more compl
 
 ---
 ## Tidying your data
-
+<br>
+<br>
 Tidying allows you to manipulate the structure of your data while preserving all original information
 
 `gather()` - convert from wide to long format
@@ -908,9 +896,9 @@ library(tidyr)
 `gather(data, key, value, ...)`
 
 <span style="font-size: 21px;">
-  - `data` A data frame (e.g. `wide`)   
-  - `key` name of the new column containing variable names (e.g. `Measurement`)  
-  - `value` name of the new column containing variable values (e.g. `Value`)   
+  - `data` A data frame (e.g. `wide`)
+  - `key` name of the new column containing variable names (e.g. `Measurement`)
+  - `value` name of the new column containing variable values (e.g. `Value`)
   - `...` name or numeric index of the columns we wish to gather (e.g. `DBH`, `Height`)
 </span>
 
@@ -934,9 +922,9 @@ long
 `spread(data, key, value)`
 
 <span style="font-size: 21px;">
-  - `data` A data frame (e.g. `long`)   
-  - `key` Name of the column containing variable names (e.g. `Measurement`)  
-  - `value` Name of the column containing variable values (e.g. `Value`)   
+  - `data` A data frame (e.g. `long`)
+  - `key` Name of the column containing variable names (e.g. `Measurement`)
+  - `value` Name of the column containing variable values (e.g. `Value`)
 </span>
 
 ---
@@ -959,10 +947,10 @@ wide2
 
 `separate(data, col, into, sep)`
 
-  - `data` A data frame (e.g. `long`)   
+  - `data` A data frame (e.g. `long`)
   - `col` Name of the column you wish to separate
   - `into` Names of new variables to create
-  - `sep` Character which indicates where to separate  
+  - `sep` Character which indicates where to separate
 
 ---
 ## Using `separate()` example
@@ -1023,7 +1011,6 @@ Split and merge columns with `unite()` and `separate()`
 
 1. Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
 
-2. Then `spread` the resulting data frame to return to the original data format.
 
 ```{r, eval = FALSE}
 ?airquality
@@ -1034,20 +1021,26 @@ data(airquality)
 ---
 ## Solution
 
-1. Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
+Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
+
 ```{r}
 air.long <- gather(airquality, variable, value, -Month, -Day)
 head(air.long)
 ```
 <span style="font-size: 18px;">
-Note that the syntax used here indicates that we wish to gather ALL the columns exept *Month* and *Day*. It is equivalent to: `gather(airquality, value, Ozone, Solar.R, Temp, Wind)`
+Note that the syntax used here indicates that we wish to gather ALL the columns except *Month* and *Day*. It is equivalent to: `gather(airquality, value, Ozone, Solar.R, Temp, Wind)`
 </span>
 
+## Challenge with `tidyr` ![:cube]()
+
+
+2. `spread` the resulting data frame to return to the original data format.
 
 ---
 ## Solution
 
-2. Then `spread` the resulting data frame to return to the original data format.
+`spread` the resulting data frame to return to the original data format.
+
 ```{r}
 air.wide <- spread(air.long, variable, value)
 head(air.wide)
@@ -1075,7 +1068,7 @@ Some corresponding R base functions:
 ---
 ## Intro to `dplyr`
 
-```{r, eval=F}
+```{r, eval = FALSE}
 install.packages("dplyr")
 library(dplyr)
 ```
@@ -1119,7 +1112,7 @@ These 4 core functions tackle the most common manipulations when working with da
 Example: suppose we are only interested in the variation of Ozone over time within the airquality dataset
 
 ```{r}
-ozone <- select(airquality, Ozone, Month, Day)
+ozone <- dplyr::select(airquality, Ozone, Month, Day)
 head(ozone)
 ```
 
@@ -1149,7 +1142,8 @@ head(august)
 
 ---
 ## Sort rows with `arrange`
-
+<br>
+<br>
 Re-order rows by a particular column, by default in ascending order
 
 Use `desc()` for descending order.
@@ -1158,7 +1152,8 @@ Use `desc()` for descending order.
 
 ---
 ## Sort rows with `arrange`
-
+<br>
+<br>
 Example:
 1. Let's use the following code to create a scrambled version of the airquality dataset
 
@@ -1169,7 +1164,8 @@ head(air_mess)
 
 ---
 ## Sort rows with `arrange`
-
+<br>
+<br>
 Example:
 2. Now let's arrange the data frame back into chronological order, sorting by Month then Day
 
@@ -1193,7 +1189,8 @@ Compute and add new columns
 
 ---
 ## Create new columns using `mutate`
-
+<br>
+<br>
 Example: we want to convert the temperature variable form degrees Fahrenheit to degrees Celsius
 
 ```{r}
@@ -1220,7 +1217,8 @@ require(magrittr)
 
 ---
 ## `magrittr`
-
+<br>
+<br>
 Suppose we want to analyse only the month of June, then convert the temperature variable to degrees Celsius. We can create the required data frame by combining 2 dplyr verbs we learned
 
 ```{r}
