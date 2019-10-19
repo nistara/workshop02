@@ -291,10 +291,8 @@ rm(list = ls())
 
 ---
 ## Housekeeping
-&lt;br&gt;
-&lt;br&gt;
-Demo – Try to add some test data to R and then see how `rm(list = ls())` removes it
 
+Demo – Try to add some test data to R and then see how `rm(list = ls())` removes it
 
 
 ```r
@@ -303,9 +301,17 @@ A &lt;- "Test" # Note that you can use spaces!
 A = "Test" # &lt;- or = can be used equally
 
 #Note that it is best practice to use "&lt;-" for assigment instead of "="
+
+# Check objects in the workspace
+ls()
+# [1] "A"
+
 A
 # [1] "Test"
+
+# clean workspace
 rm(list=ls())
+
 A
 # Error in eval(expr, envir, enclos): object 'A' not found
 ```
@@ -328,12 +334,23 @@ class: inverse, center, middle
 ---
 ## Download today's data
 &lt;br&gt;
-&lt;br&gt;
 You can download the data and the script for this workshop from the wiki:
 
 .center[http://qcbs.ca/wiki/r/workshop2]
 
 Save the files in the folder where your created your R project.
+
+--
+
+&lt;br&gt;
+
+.alert[NOTE] Many databases are already available on R
+
+
+```r
+# Complete list of available data on base R
+library(help = "datasets")
+```
 
 ---
 ## Working Directory
@@ -426,6 +443,7 @@ R Command  					| Action
 `dim(CO2)`          | dimensions of the dataframe
 `ncol(CO2)`					| number of columns
 `nrow(CO2)`					| number of rows
+`summary(CO2)`      | basic statistics for each variables
 
 
 ---
@@ -472,13 +490,17 @@ Load the data with:
 CO2 &lt;- read.csv("data/co2_good.csv", header = FALSE)
 ```
 
-Check data types with `str()` again. What is wrong here?
+Check data types with `str()` again.
+
+What is wrong here?
+
+--
+
 .comment[Do not forget to re-load data with `header = T` afterwards]
 
 ---
 ## Reminder from Workshop 1: Accessing data
-&lt;br&gt;
-&lt;br&gt;
+
 Imagine a data frame called `mydata`:
 
 .center[
@@ -612,19 +634,39 @@ You can also use other functions to calculate basic statistics on parts of your 
 # Assign them to new variables
 meanConc &lt;- mean(CO2$conc)
 sdConc &lt;- sd(CO2$conc)
+```
+
+
+```r
 # print() prints any given value to the R console
 print(paste("the mean of concentration is:", meanConc))
+# [1] "the mean of concentration is: 435"
+
 print(paste("the standard deviation of concentration is:", sdConc))
+# [1] "the standard deviation of concentration is: 295.924119222056"
 ```
+
+---
+## Data exploration
 
 
 ```r
 # Let's plot a histogram to explore the distribution of "uptake"
 hist(CO2$uptake)
+```
 
+&lt;img src="workshop02-en_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Data exploration
+
+
+```r
 # Increasing the number of bins to observe better the pattern
 hist(CO2$uptake, breaks = 40)
 ```
+
+&lt;img src="workshop02-en_files/figure-html/unnamed-chunk-25-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -679,13 +721,19 @@ Note that our arguments are both:
 ## Challenge: Use your data ![:cube]()
 &lt;br&gt;
 &lt;br&gt;
-* Try to load, explore, plot, and save your own data in R;*
+* Try to load, explore, plot, and save your own data in R;.comment[*]
 * If it does not load properly, try to make the appropriate changes;
 * When you are finished, try opening your exported data in Excel, Numbers, Notepad or TextEdit.
 
 .comment[*If you don’t have your own data, work with your neighbor]
-.comment[*Remember to clean your workspace]
 
+.comment[Remember to clean your workspace]
+
+
+---
+class: inverse, center, middle
+
+# Database repair
 
 ---
 ## Database repair
@@ -740,11 +788,12 @@ Some useful functions:
 
 add "?" (e.g. `?read.csv` to the function name to access the function help page)
 
+&lt;br&gt;
+.alert[HINT] There are 4 problems!
+
+
 ---
 ## Database repair
-
-
-.alert[HINT] There are 4 problems!
 
 .alert[ERROR 1] The data appears to be lumped into one column
 
@@ -829,9 +878,7 @@ head(CO2)
 ---
 ## Database repair
 
-.alert[ERROR 3]
-
-`conc` and `uptake` variables are considered factors instead of numbers, because there are comments in the numeric columns
+.alert[ERROR 3] `conc` and `uptake` variables are considered factors instead of numbers, because there are comments in the numeric columns
 
 
 ```r
@@ -842,6 +889,14 @@ str(CO2)
 #  $ Treatment: Factor w/ 4 levels "chiled","chilled",..: 4 4 4 4 4 4 4 4 4 3 ...
 #  $ conc     : Factor w/ 8 levels "1000","175","250",..: 7 2 3 4 5 8 1 7 2 3 ...
 #  $ uptake   : Factor w/ 77 levels "10.5","10.6",..: 15 39 76 54 50 61 63 9 32 53 ...
+```
+
+
+```r
+unique(CO2$conc)
+# [1] 95                175               250               350              
+# [5] 500               cannot_read_notes 1000              675              
+# Levels: 1000 175 250 350 500 675 95 cannot_read_notes
 ```
 
 * Due to missing values entered as "cannot_read_notes" and "na"
@@ -910,8 +965,34 @@ CO2$Treatment[CO2$Treatment=="nnchilled"] &lt;- "nonchilled"
 
 # Identify all rows that contain "chiled" and replace with "chilled"
 CO2$Treatment[CO2$Treatment=="chiled"] &lt;- "chilled"
+```
 
-# Drop unused levels from factor
+
+---
+## Database repair
+
+.alert[ERROR 4] - Solution
+
+After repairing the factors, we need to remove the unused factor levels
+
+If not :
+
+
+```r
+boxplot(uptake ~ Treatment, data = CO2)
+```
+
+&lt;img src="workshop02-en_files/figure-html/unnamed-chunk-40-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Database repair
+
+.alert[ERROR 4] - Solution
+
+
+
+```r
 CO2 &lt;- droplevels(CO2)
 str(CO2)
 # 'data.frame':	84 obs. of  5 variables:
@@ -922,6 +1003,16 @@ str(CO2)
 #  $ uptake   : num  16 30.4 NA 37.2 35.3 39.2 39.7 13.6 27.3 37.1 ...
 ```
 
+.pull-left[
+
+```r
+boxplot(uptake ~ Treatment, data = CO2)
+```
+]
+.pull-right[
+&lt;img src="workshop02-en_files/figure-html/unnamed-chunk-43-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]
+
 
 ---
 class: inverse, center, middle
@@ -931,7 +1022,9 @@ class: inverse, center, middle
 ---
 class: inverse, center, middle
 
-# Learn to manipulate data with tidyr, dyplr, maggritr
+# Learn to manipulate data with
+
+## tidyr, dyplr, maggritr
 
 ---
 ## Using `tidyr` to reshape data frames
@@ -942,7 +1035,7 @@ library(tidyr)
 ```
 
 &lt;div style="text-align:center"&gt;
-&lt;img src="images/tidyr_logo.png" height=50% width=50%&gt;
+&lt;img src="images/tidyr_logo.png" height=40% width=40%&gt;
 &lt;/div&gt;
 
 ---
@@ -1039,7 +1132,7 @@ wide
 
 
 ```r
-long = gather(wide, Measurement, Value, DBH, Height)
+long = tidyr::gather(wide, Measurement, Value, DBH, Height)
 long
 #   Species Measurement Value
 # 1     Oak         DBH    12
@@ -1074,7 +1167,11 @@ long
 # 4     Oak      Height    56
 # 5     Elm      Height    85
 # 6     Ash      Height    55
-wide2 = spread(long, Measurement, Value)
+```
+
+
+```r
+wide2 = tidyr::spread(long, Measurement, Value)
 wide2
 #   Species DBH Height
 # 1     Ash  13     55
@@ -1126,7 +1223,7 @@ First convert the messy data frame from wide to long format
 
 
 ```r
-messy.long &lt;- gather(messy, taxa, count, -id, -trt)
+messy.long &lt;- tidyr::gather(messy, taxa, count, -id, -trt)
 head(messy.long)
 #   id     trt           taxa     count
 # 1  1    farm zooplankton.T1 0.7189275
@@ -1144,8 +1241,8 @@ Then we want to split the 2 sampling time (T1 and T2).
 
 
 ```r
-messy.long.sep &lt;- separate(messy.long, taxa,
-                           into = c("species", "time"), sep = "\\.")
+messy.long.sep &lt;- tidyr::separate(messy.long, taxa,
+                                  into = c("species", "time"), sep = "\\.")
 head(messy.long.sep)
 #   id     trt     species time     count
 # 1  1    farm zooplankton   T1 0.7189275
@@ -1156,9 +1253,9 @@ head(messy.long.sep)
 # 6  2    farm        fish   T1 0.4570449
 ```
 
-&lt;span style="font-size: 18px;"&gt;
+.small[.comment[
 The argument `sep = "\\."` tells R to splits the character string around the period (.). We cannot type directly `"."` because it is a regular expression that matches any single character.
-&lt;/span&gt;
+]]
 
 ---
 ## Recap of `tidyr`
@@ -1175,10 +1272,9 @@ Split and merge columns with `unite()` and `separate()`
 
 
 ---
-## Challenge with `tidyr` ![:cube]()
+## Challenge #1 ![:cube]()
 
-1. Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
-
+Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
 
 
 ```r
@@ -1188,13 +1284,13 @@ data(airquality)
 ```
 
 ---
-## Solution
+## Solution #1
 
 Using the airquality dataset, `gather` all the columns (except Month and Day) into rows.
 
 
 ```r
-air.long &lt;- gather(airquality, variable, value, -Month, -Day)
+air.long &lt;- tidyr::gather(airquality, variable, value, -Month, -Day)
 head(air.long)
 #   Month Day variable value
 # 1     5   1    Ozone    41
@@ -1204,23 +1300,24 @@ head(air.long)
 # 5     5   5    Ozone    NA
 # 6     5   6    Ozone    28
 ```
-&lt;span style="font-size: 18px;"&gt;
+.small[.comment[
 Note that the syntax used here indicates that we wish to gather ALL the columns except *Month* and *Day*. It is equivalent to: `gather(airquality, value, Ozone, Solar.R, Temp, Wind)`
-&lt;/span&gt;
-
-## Challenge with `tidyr` ![:cube]()
-
-
-2. `spread` the resulting data frame to return to the original data format.
+]]
 
 ---
-## Solution
+## Challenge #2 ![:cube]()
+
+
+`spread` the resulting data frame to return to the original data format.
+
+---
+## Solution #2
 
 `spread` the resulting data frame to return to the original data format.
 
 
 ```r
-air.wide &lt;- spread(air.long, variable, value)
+air.wide &lt;- tidyr::spread(air.long, variable, value)
 head(air.wide)
 #   Month Day Ozone Solar.R Temp Wind
 # 1     5   1    41     190   67  7.4
@@ -1280,10 +1377,14 @@ These 4 core functions tackle the most common manipulations when working with da
 
   * `...`  Can be column names or positions or complex expressions separated by commas
 
-  `select(data, column1, column2)` select columns 1 and 2
-  `select(data, c(2:4,6))` select columns 2 to 4 and 6
-  `select(data, -column1)` select all columns except column 1
-  `select(data, start_with(x.))` select all columns that start with "x."
+Examples:
+
+```r
+select(data, column1, column2) # select columns 1 and 2
+select(data, c(2:4,6)) # select columns 2 to 4 and 6
+select(data, -column1) # select all columns except column 1
+select(data, start_with(x.)) # select all columns that start with "x."
+```
 
 ---
 ## `select` columns
@@ -1330,7 +1431,7 @@ Example: we are interested in analyses that focus on the month of August during 
 
 
 ```r
-august &lt;- filter(airquality, Month == 8, Temp &gt;= 90)
+august &lt;- dplyr::filter(airquality, Month == 8, Temp &gt;= 90)
 # same as: filter(airquality, Month == 8 &amp; Temp &gt;= 90)
 head(august)
 #   Ozone Solar.R Wind Temp Month Day
@@ -1361,7 +1462,7 @@ Example:
 
 
 ```r
-air_mess &lt;- sample_frac(airquality, 1)
+air_mess &lt;- dplyr::sample_frac(airquality, 1)
 head(air_mess)
 #   Ozone Solar.R Wind Temp Month Day
 # 1    23     115  7.4   76     8  18
@@ -1374,14 +1475,14 @@ head(air_mess)
 
 ---
 ## Sort rows with `arrange`
-&lt;br&gt;
+
 &lt;br&gt;
 Example:
 2. Now let's arrange the data frame back into chronological order, sorting by Month then Day
 
 
 ```r
-air_chron &lt;- arrange(air_mess, Month, Day)
+air_chron &lt;- dplyr::arrange(air_mess, Month, Day)
 head(air_chron)
 #   Ozone Solar.R Wind Temp Month Day
 # 1    41     190  7.4   67     5   1
@@ -1392,7 +1493,7 @@ head(air_chron)
 # 6    28      NA 14.9   66     5   6
 ```
 
-Try :  `arrange(air_mess, Day, Month)` and see the difference.
+.comment[Try : `arrange(air_mess, Day, Month)` and see the difference.]
 
 ---
 ## Create new columns using `mutate`
@@ -1454,7 +1555,9 @@ june_C &lt;- mutate(filter(airquality, Month == 6),
                  Temp_C = (Temp-32)*(5/9))
 ```
 
+.small[.comment[
 As we add more operations, wrapping functions one inside the other becomes increasingly illegible. But, step by step would be redundant and write a lot of objects to the workspace.
+]]
 
 ---
 ## `magrittr`
@@ -1464,8 +1567,8 @@ Alternatively, we can use maggritr's pipe operator to link these successive oper
 
 ```r
 june_C &lt;- airquality %&gt;%
-    filter(Month == 6) %&gt;%
-    mutate(Temp_C = (Temp-32)*(5/9))
+          dplyr::filter(Month == 6) %&gt;%
+          dplyr::mutate(Temp_C = (Temp-32)*(5/9))
 ```
 
 Advantages :
@@ -1496,7 +1599,7 @@ The `group_by` function is key to the Split-Apply-Combine strategy
 ## `dplyr` - Split-Apply-Combine
 
 &lt;div style="text-align:center"&gt;
-&lt;img src="images/summarise.png" height=70% width=70%&gt;
+&lt;img src="images/summarise.png" height=65% width=65%&gt;
 &lt;/div&gt;
 
 ---
@@ -1522,23 +1625,34 @@ month_sum
 ```
 
 ---
-## Challenge with `dplyr`and `magrittr` ![:cube]()
+## Challenge - `dplyr` and `magrittr` ![:cube]()
 
 Using the `ChickWeight` dataset, create a summary table which displays the difference in weight between the maximum and minimum weight of each chick in the study.
 
 Employ `dplyr` verbs and the `%&gt;%` operator.
 
+
+```r
+## ?ChickWeight
+data(ChickWeight)
+```
+
+
 ---
 ## Solution
 
-1. Use group_by() to divide the dataset by "Chick"
-2. Use summarise() to calculate the weight gain within each group
+1. Use `group_by()` to divide the dataset by `Chick`
+2. Use `summarise()` to calculate the weight gain within each group
 
 
 ```r
 weight_diff &lt;- ChickWeight %&gt;%
-      group_by(Chick) %&gt;%
-      summarise(weight_diff = max(weight) - min(weight))
+               dplyr::group_by(Chick) %&gt;%
+               dplyr::summarise(weight_diff = max(weight) - min(weight))
+```
+              
+
+```r
 head(weight_diff)
 # # A tibble: 6 x 2
 #   Chick weight_diff
@@ -1552,13 +1666,15 @@ head(weight_diff)
 ```
 
 ---
-## Ninja challenge
+## Ninja challenge ![:cube]()
 
-Using the `ChickWeight` dataset, create a summary table which displays, for each diet, the average individual difference in weight between the end and the beginning of the study.
+- Using the `ChickWeight` dataset, create a summary table which displays, for each diet, the average individual difference in weight between the end and the beginning of the study.
 
-Employ `dplyr` verbs and the `%&gt;%` operator.
+- Employ `dplyr` verbs and the `%&gt;%` operator.
 
-(Hint: `first()` and `last()` may be useful here.)
+&lt;br&gt;
+.alert[Hint]: `first()` and `last()` may be useful here
+
 
 ---
 ## Ninja solution
@@ -1566,10 +1682,14 @@ Employ `dplyr` verbs and the `%&gt;%` operator.
 
 ```r
 diet_summ &lt;- ChickWeight %&gt;%
-      group_by(Diet, Chick) %&gt;%
-      summarise(weight_gain = last(weight) - first(weight)) %&gt;%
-      group_by(Diet) %&gt;%
-      summarise(mean_gain = mean(weight_gain))
+             dplyr::group_by(Diet, Chick) %&gt;%
+             dplyr::summarise(weight_gain = last(weight) - first(weight)) %&gt;%
+             dplyr::group_by(Diet) %&gt;%
+             dplyr::summarise(mean_gain = mean(weight_gain))
+```
+
+
+```r
 diet_summ
 # # A tibble: 4 x 2
 #   Diet  mean_gain
